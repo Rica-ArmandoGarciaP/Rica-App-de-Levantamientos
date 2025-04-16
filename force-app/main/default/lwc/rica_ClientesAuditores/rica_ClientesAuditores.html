@@ -1,0 +1,94 @@
+<template>
+    <div class="contenedor-general">
+        <div class="titulo">
+            <h1 style="font-size: 24px;">Clientes</h1>
+            <div class="input-container">
+                <lightning-input 
+                    type="text" 
+                    variant="label-hidden" 
+                    placeholder="Ingrese el nombre o número de cliente..." 
+                    class="input-text"
+                    onchange={handleSearch}>
+                </lightning-input>
+                <lightning-icon icon-name="utility:search" size="small" class="input-icon"></lightning-icon>
+            </div>  
+        </div>
+
+        <!--LISTADO DE CLIENTES PARA EL AUDITOR-->
+        <div class="contenedor-clientes">          
+            <template for:each={filteredItems} for:item="item">
+                <div key={item.id} class="tarjeta-cliente" data-id={item.id} onclick={redirigir}>
+                    <div class="cabecera-tarjeta">
+                        Cliente : {item.numeroCliente}
+                    </div>
+                    <div class="contenido-tarjeta">
+                        <div class="datos-tarjeta">
+                            <p><b>Nombre del cliente:</b> {item.nombre}</p>
+                            <p><b>Dirección:</b> {item.address}</p>
+                            <p><b>Nombre del negocio:</b> {item.nombreEstablecimiento}</p>
+                        </div>
+                        <div class="indicadores-tarjeta">
+                            <div class={item.colorEstatusInventario}></div>
+                            <div class={item.colorEstatusTicket}></div>
+                            <div class={item.colorEstatusPerfil}></div>
+                        </div>
+                    </div>
+                </div>
+            </template>
+        </div>
+        <!--MODAAAAL DE ACCIONES DE LEVANTAMIENTO-->
+        <template lwc:if={mostrarMenu}>
+            <div class="modal">
+                <div class="contenedor-interno-modal">
+                    <button class="boton-cerrar" onclick={cerrarModal}>❌</button>
+                    <div class="contenedor-informacion-modal">
+                        <h1 style="font-size: 18px; font-weight: bold; text-align: center; padding-bottom:10px;">
+                            TIPO DE LEVANTAMIENTO Y UBICACIÓN
+                        </h1>
+                        <p style="font-size: 14px; text-align: left;"><b>Nombre:</b> {clienteSeleccionado.nombre}</p>
+                        <p style="font-size: 14px; text-align: left;"><b>NoCliente:</b> {clienteSeleccionado.numeroCliente}</p>
+                    </div>
+                    <div class="contenedor-acciones">
+                        <div class="seccion-acciones">
+                            <div class="accion" onclick={desplegarLevantamientoTickets}>
+                                <img src={urlLogoTickets} alt="Logo de la empresa" width="100px" height="100px"/>
+                                <b style="padding-top: 10px;">Levantamiento de Tickets</b>
+                            </div>
+                            <div class="accion" onclick={desplegarAccion}>
+                                <img src={urlLogoInventario} alt="Logo de la empresa" width="100px" height="100px"/>
+                                <b style="padding-top: 10px;">Levantamiento de Inventario</b>
+                            </div>
+                        </div>
+                        <div class="seccion-acciones">
+                            <div class="accion" onclick={desplegarEncuesta}>
+                                <img src={urlLogoPerfil} alt="Logo de la empresa" width="100px" height="100px"/>
+                                <b style="padding-top: 10px;">Perfil de Categorias</b>
+                            </div>
+                            <div class="accion" onclick={abrirMaps}>
+                                <img src={urlLogoUbicacion} alt="Logo de la empresa" width="100px" height="100px"/>
+                                <b style="padding-top: 10px;">Ver Ubicación del Cliente</b>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </template>
+
+        <!--LLAMADA A LOS COMPONENTES SECUNDARIOS-->
+        <template lwc:if={mostrarComponenteInventario}>
+            <c-rica-levantamiento-inventario cliente={clienteSeleccionado} oncerrar={handleCerrarComponente} oncerrarsinacciones ={handleCerrarFormulario}></c-rica-levantamiento-inventario>
+        </template>
+
+        <template lwc:if={mostrarComponenteTicket}>
+            <c-rica-levantamiento-tickets cliente={clienteSeleccionado} oncerrar={handleCerrarComponente} oncerrarsinacciones ={handleCerrarFormulario}></c-rica-levantamiento-tickets>
+        </template>
+
+        <template lwc:if={mostrarComponenteEncuesta}>
+            <c-rica-levantamiento-perfil-categorias cliente={clienteSeleccionado} oncerrar={handleCerrarComponente} oncerrarsinacciones ={handleCerrarFormulario}></c-rica-levantamiento-perfil-categorias>
+        </template>
+
+        <!--<template lwc:if={mostrarModalImagenes}>
+            <c-rica-cargar-imagenes-faltantes faltantes={imagenesFaltantes} oncerrarsinacciones ={handleCerrarFormulario}></c-rica-cargar-imagenes-faltantes>
+        </template>-->
+    </div>
+</template>

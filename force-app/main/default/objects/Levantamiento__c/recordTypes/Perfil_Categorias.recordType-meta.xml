@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Perfil_Categorias</fullName>
+    <active>true</active>
+    <label>Perfil Categorías</label>
+    <picklistValues>
+        <picklist>Categorias_de_Abarrotes_Manejantes__c</picklist>
+        <values>
+            <fullName>Café soluble</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Consomé</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Detergentes</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Hojas de afeitar</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Jabón de tocador</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Jamón</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Leche en polvo</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Margarina%2FMantequilla</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Modificadores de leche</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Pasta dental</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Puré de tomate</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Queso</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Shampoo</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Yogurt</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Categorias_de_Confiteria_Manejantes__c</picklist>
+        <values>
+            <fullName>Botanas</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Chocolate golosina</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Cigarros</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Galletas</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Ninguna</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Pastelitos</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Refrescos</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Motivo_de_no_levantamiento_de_tickets__c</picklist>
+        <values>
+            <fullName>Al proveedor no se le entrega el ticket</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Compra en lugares donde no entregan ticket %28No compró con el proveedor%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>El cliente no conserva el ticket</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+</RecordType>

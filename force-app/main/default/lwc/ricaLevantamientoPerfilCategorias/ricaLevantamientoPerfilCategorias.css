@@ -1,0 +1,92 @@
+:host {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.5); /* Fondo semi-transparente */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 99999; /* Para asegurarse de que esté encima de todo */
+}
+
+.contenedor-modal {
+    position: relative; /* Asegura que los elementos absolutos se posicionen dentro de este contenedor */
+    background: white;
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.boton-cerrar {
+    position: absolute;
+    top: 5px;
+    right: 5px; /* Cambiado de left a right */
+    background: none;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.cabecera{
+    width: 100%;
+    height: 15%;
+    padding: 20px;
+    font-size: 16px;
+}
+
+.formulario-levantamiento-tickets{
+    width: 100%;
+    height: 75%;
+    overflow: scroll;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+.footer-levantamiento-tickets{
+    background-color: #F40000;
+    width:100%;
+    height: 10%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 20px; /* Espaciado entre acciones */
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 60px;
+    padding-right: 60px;
+    border: solid 1px;
+}
+
+.boton-motivo{
+    width:150px;
+    height: 40px;
+    border-radius: 5px;
+    background-color: #b20000;
+    box-shadow: 2px 5px #830000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+/*ESTILOS DEL FORMULARIO*/
+.opciones{
+    display: flex;
+    flex-direction: column;
+}
+
+.opciones label {
+    font-size: 14px;
+    display: block;
+    margin: 5px 0;
+}

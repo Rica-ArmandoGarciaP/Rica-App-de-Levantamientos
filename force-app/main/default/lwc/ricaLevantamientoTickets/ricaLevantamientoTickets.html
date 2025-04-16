@@ -1,0 +1,365 @@
+<template>
+    <div class="contenedor-modal">
+        <template lwc:if={mostrarOpciones}>
+            <button class="boton-cerrar" onclick={cerrarModalGeneralSinAcciones}>❌</button>
+            <div class="cabecera slds-text-align_center">
+                <span class="titulo-principal slds-text-heading_large">¿El cliente cuenta con tickets?</span>
+            </div>
+            <div class="formulario-levantamiento-tickets">
+                <div class="accion" onclick={mostrarFormularioLevantamiento}>
+                    <img src={urlIconoSiguiente} alt="Logo de la empresa" width="100px" height="100px" />
+                    <b style="padding-top: 10px;">Si cuenta con tickets</b>
+                </div>
+                <div class="accion" onclick={mostrarSelectorMotivos}>
+                    <img src={urlIconoSinTickets} alt="Logo de la empresa" width="100px" height="100px" />
+                    <b style="padding-top: 10px;">El cliente no cuenta con tickets</b>
+                </div>
+            </div>
+            <div class="footer-levantamiento-tickets">
+                <div class="boton" onclick={cerrarModalGeneralSinAcciones}>
+                    <p style="color:white; font-size:20px; font-weight:bold;">Regresar</p>
+                </div>
+            </div>
+        </template>
+
+        <template lwc:if={mostrarSelectorNoLevantamiento}>
+            <button class="boton-cerrar" onclick={cerrarModalGeneralSinAcciones}>❌</button>
+            <div class="cabecera slds-text-align_center">
+                <span class="titulo-principal slds-text-heading_large">El cliente no cuenta con tickets</span>
+            </div>
+            <div class="formulario-levantamiento-tickets">
+                <p style="font-size: 14px; font-weight: bold;">Motivo:</p>
+                <lightning-select name="tickets" value={motivoNoLevantamiento} options={options}
+                    onchange={handleChangeSelectorMotivo} variant="label-hidden" required></lightning-select>
+            </div>
+            <div class="footer-levantamiento-tickets">
+                <div class="boton-motivo" onclick={guardarMotivoNoLevantamiento}>
+                    <p style="color:white; font-size:20px; font-weight:bold;">Enviar Motivo</p>
+                </div>
+            </div>
+        </template>
+
+        <!--FORMULARIO PARA DAR DE ALTA LOS TICKETS Y LOS PRODUCTOS DE CADA TICKET-->
+        <template lwc:if={mostrarFormulario}>
+
+            <div class="cabecera slds-text-align_center">
+                <span class="titulo-principal slds-text-heading_large">Levantamiento de Tickets</span>
+            </div>
+            <div class="formulario-levantamiento-tickets">
+                <p style="font-size: 16px; text-align: left;"><b>Nombre:</b> {cliente.nombre}</p>
+                <p style="font-size: 16px; text-align: left;"><b>NoCliente:</b> {cliente.numeroCliente}</p>
+
+                <template lwc:if={informacionTicketNoCargada}>
+                    <p style="font-size: 14px; font-weight: bold; margin-top:20px;">Fecha del ticket:</p>
+                    <lightning-input type="date" value={fechaTicket} onchange={handleChangeFechaTicket}
+                        variant="label-hidden"></lightning-input>
+
+                    <div class="input-container">
+                        <p style="font-size: 14px; font-weight: bold; margin-top:20px;">Fabricante:</p>
+
+                        <lightning-input label="Fabricante" data-field="fabricante" value={fabricante}
+                            onchange={handleChange} onclick={handleCLickFabricante}
+                            placeholder="Escribe o selecciona un fabricante" type="text" class="input"
+                            variant="label-hidden">
+                        </lightning-input>
+
+                        <template if:true={mostrarSelectorFabricante}>
+                            <ul class="dropdown-options">
+                                <template for:each={opcionesFabricanteFiltradas} for:item="opcion">
+                                    <li key={opcion.value} data-field="fabricante" onclick={handleOptionSelect}>
+                                        {opcion.label}</li>
+                                </template>
+                            </ul>
+                        </template>
+                    </div>
+
+                    <p style="font-size: 14px; font-weight: bold; margin-top:20px;">Adjuntar foto del Ticket:</p>
+                    <div class="contenedor-subir-imagen">
+
+                        <!--COMPONENTE LIGHTNING PARA SUBIR ARCHIVOS-->
+
+                        <!--<lightning-file-upload name="fileUploader" accept=".pdf, .png, .jpg"
+                            record-id={idRegistroARelacionarArchivos} onuploadfinished={handleUploadFinished}
+                            variant="label-hidden" multiple>
+                        </lightning-file-upload>-->
+
+                        <template lwc:if={mostrarInputImagen}>
+                            <label class="file-input-wrapper">
+                                <img src={urlIconoSubirImagen} alt="Ícono de subir">
+                                Subir imagen del Ticket
+                                <input type="file" class="file-input" multiple onchange={handleImageUpload} />
+                            </label>
+                        </template>
+                        <template lwc:else>
+                            <img src={urlIconoAdvertencia} width="90px" height="90px" />
+                            <div class="contenedor-advertencia">
+                                <h1 style="color:#F40000; font-weight:bold; "> ADVERTENCIA, NO CUENTAS CON CONEXIÓN</h1>
+                                <p> Asegurate de tomar una foto del ticket ya que se te solicitará después</p>
+                            </div>
+                        </template>
+                    </div>
+                    <template lwc:if={imagenesPreview}>
+                        <div class="preview-container">
+                            <template for:each={imagenesPreview} for:item="imagen">
+                                <div key={imagen.nombre} class="preview-item">
+                                    <img src={imagen.src} alt="Vista previa" class="preview-imagen" />
+                                    <p class="nombre-archivo">{imagen.nombre}</p>
+                                </div>
+                            </template>
+                        </div>
+                    </template>
+                </template>
+
+                <!--FORMULARIO PARA CADA PRIDUCTO-->
+                <template lwc:if={informacionTicketCargada}>
+                    <p style="font-size: 16px; padding-top: 10px;">Código de barras</p>
+                    <div class="contendeor-lector-de-barras">
+                        <input name="codigoBarras" type="text" value={codEscaneado}
+                            onchange={handleChangeInputCodigoBarras} class="input-codigo-barras"></input>
+                        <lightning-button variant="brand" label="Escaner" class="slds-var-m-left_large"
+                            icon-name="utility:scan" onclick={beginScanning}></lightning-button>
+                    </div>
+                    <div class="input-container">
+                        <lightning-input label="Fabricante" data-field="fabricante" value={fabricante}
+                            onchange={handleChange} onclick={handleCLickFabricante}
+                            placeholder="Escribe o selecciona un fabricante" type="text" class="input">
+                        </lightning-input>
+
+                        <template if:true={mostrarSelectorFabricante}>
+                            <ul class="dropdown-options">
+                                <template for:each={opcionesFabricanteFiltradas} for:item="opcion">
+                                    <li key={opcion.value} data-field="fabricante" onclick={handleOptionSelect}>
+                                        {opcion.label}</li>
+                                </template>
+                            </ul>
+                        </template>
+                    </div>
+
+                    <div class="input-container">
+                        <lightning-input label="Empaque" data-field="empaque" value={empaque} onchange={handleChange}
+                            onclick={handleCLickEmpaque} placeholder="Escribe o selecciona un empaque" type="text"
+                            class="input">
+                        </lightning-input>
+
+                        <template if:true={mostrarSelectorEmpaque}>
+                            <ul class="dropdown-options">
+                                <template for:each={opcionesEmpaqueFiltradas} for:item="opcion">
+                                    <li key={opcion.value} data-field="empaque" onclick={handleOptionSelect}>
+                                        {opcion.label}
+                                    </li>
+                                </template>
+                            </ul>
+                        </template>
+                    </div>
+
+                    <div class="input-container">
+                        <lightning-input label="Categoria" data-field="categoria" value={categoria}
+                            onchange={handleChange} onclick={handleCLickCategoria}
+                            placeholder="Escribe o selecciona una categoría" type="text" class="input">
+                        </lightning-input>
+
+                        <template if:true={mostrarSelectorCategoria}>
+                            <ul class="dropdown-options">
+                                <template for:each={opcionesCategoriaFiltradas} for:item="opcion">
+                                    <li key={opcion.value} data-field="categoria" onclick={handleOptionSelect}>
+                                        {opcion.label}</li>
+                                </template>
+                            </ul>
+                        </template>
+                    </div>
+
+                    <div class="input-container">
+                        <lightning-input label="Submarca" data-field="subMarca" value={subMarca} onchange={handleChange}
+                            onclick={handleCLickSubmarca} placeholder="Escribe o selecciona una sub marca" type="text"
+                            class="input">
+                        </lightning-input>
+
+                        <template if:true={mostrarSelectorSubMarca}>
+                            <ul class="dropdown-options">
+                                <template for:each={opcionesSubMarcaFiltradas} for:item="opcion">
+                                    <li key={opcion.value} data-field="subMarca" onclick={handleOptionSelect}>
+                                        {opcion.label}
+                                    </li>
+                                </template>
+                            </ul>
+                        </template>
+                    </div>
+
+                    <lightning-input type="number" name="Cantidad" label="Cantidad" value={cantidad}
+                        placeholder="Escribe una cantidad" class="input" style="padding-top: 8px;"
+                        onchange={handleChangeCantidad}></lightning-input>
+
+                    <lightning-input type="number" name="Precio" label="Precio" value={precioProd}
+                        placeholder="Escribe una cantidad" class="input" style="padding-top: 8px;" step="0.01"
+                        onchange={handleChangePrecio}>
+                    </lightning-input>
+
+                </template>
+            </div>
+            <div class="footer-levantamiento-tickets">
+                <template lwc:if={informacionTicketNoCargada}>
+                    <div class="boton-motivo" onclick={regresarAAcciones}>
+                        <p style="color:white; font-size:20px; font-weight:bold;">Regresar</p>
+                    </div>
+                    <template lwc:if={mostrarBotonParaContinuarConElLevantamiento}>
+                        <div class="boton-motivo" onclick={guardarInfoTicket}>
+                            <p style="color:white; font-size:20px; font-weight:bold;">Guardar</p>
+                        </div>
+                    </template>
+                </template>
+                <template lwc:if={informacionTicketCargada}>
+                    <div class="boton" onclick={guardarRegistroPorFechaYFabricante}>
+                        <img src={urlGuardarProducto} width="20px" height="20px" />
+                    </div>
+                    <div class="boton" onclick={nuevoTicket}>
+                        <img src={urlIconoNuevoTicket} width="20px" height="20px" />
+                    </div>
+                    <div class="boton" onclick={redirigirResumen}>
+                        <img src={urlIconoResumen} width="20px" height="20px" />
+                    </div>
+                </template>
+            </div>
+
+        </template>
+
+
+        <!--VISTA DEL RESUMEN DEL LEVANTAMIENTO DE TICKETS-->
+        <template lwc:if={mostrarResumen}>
+            <div class="cabecera slds-text-align_center">
+                <span class="slds-text-heading_large">Resumen Tickets</span>
+            </div>
+            <div class="formulario-levantamiento-tickets">
+
+                <p style="font-size: 16px; text-align: left; padding-bottom:5px;"><b>Nombre:</b> {cliente.nombre}</p>
+                <p style="font-size: 16px; text-align: left; padding-bottom:5px;"><b>NoCliente:</b>
+                    {cliente.numeroCliente}</p>
+
+                <!--VISTA DEL RESUMEN GENERAL DEL LEVANTMAIENTO-->
+                <template lwc:if={mostrarTablaResumen}>
+                    <div class="tabla-contenedor">
+                        <table class="slds-table slds-table_bordered slds-table_cell-buffer tabla">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Compañia</th>
+                                    <th scope="col">Fecha</th>
+                                    <th scope="col">Cantidad de Productos</th>
+                                    <th scope="col">Total Precio</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <template for:each={conteoRegistros} for:item="item">
+                                    <tr key={item.fabricante} data-identificador={item.identificador}
+                                        onclick={seleccionarFabricante} class="fila-click">
+                                        <td>{item.fabricante}</td>
+                                        <td>{item.fecha}</td>
+                                        <td>{item.cantidad}</td>
+                                        <td>
+                                            <lightning-formatted-number format-style="currency"
+                                                currency-code={currencyCode} currency-display-as="symbol"
+                                                maximum-fraction-digits="2" value={item.sumaPrecios}>
+                                            </lightning-formatted-number>
+                                        </td>
+                                    </tr>
+                                </template>
+                                <!-- Fila de totales -->
+                                <tr class="slds-theme_shade slds-text-title_bold">
+                                    <td>TOTAL:</td>
+                                    <td></td>
+                                    <td>{totalesGenerales.totalCantidad}</td>
+                                    <td>
+                                        <lightning-formatted-number format-style="currency" currency-code={currencyCode}
+                                            currency-display-as="symbol" maximum-fraction-digits="2"
+                                            value={totalesGenerales.totalPrecios}>
+                                        </lightning-formatted-number>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </template>
+
+                <!--VISTA PARA EL DETALLE DE LOS REGISTROS POR FABRICANTE-->
+                <template if:true={fabricanteSeleccionado}>
+                    <p style="font-size: 16px; padding-bottom:10px"><strong>Fabricante seleccionado:</strong>
+                        {fabricanteSeleccionado}</p>
+                    <p style="font-size: 16px; padding-bottom:10px"><strong>Fecha del ticket:</strong>
+                        {fechaTicketSeleccionado}</p>
+                    <div class="tabla-contenedor">
+                        <table class="slds-table slds-table_bordered slds-table_cell-buffer tabla">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Código Escaneado</th>
+                                    <th scope="col">Empaque</th>
+                                    <th scope="col">Categoría</th>
+                                    <th scope="col">SubMarca</th>
+                                    <th scope="col">Cantidad</th>
+                                    <th scope="col">Precio</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <template for:each={registrosSeleccionados} for:item="registro">
+                                    <tr key={registro.codEscaneado} data-codescaneado={registro.codEscaneado}
+                                        onclick={seleccionarRegistro}>
+                                        <td>{registro.codEscaneado}</td>
+                                        <td>{registro.empaque}</td>
+                                        <td>{registro.categoria}</td>
+                                        <td>{registro.subMarca}</td>
+                                        <td>{registro.cantidad}</td>
+                                        <td>{registro.precio}</td>
+                                    </tr>
+                                </template>
+                            </tbody>
+                        </table>
+                    </div>
+                </template>
+
+                <!--MODAL PARA MOSTRAR EL REGISTRO SELECCIONADO-->
+                <template if:true={mostrarModal}>
+                    <section role="dialog" class="slds-modal slds-fade-in-open">
+                        <div class="slds-modal__container">
+                            <!-- CABECERA -->
+                            <header class="slds-modal__header">
+                                <h2 class="slds-text-heading_medium">Opciones</h2>
+                                <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse"
+                                    onclick={cerrarModalOpcionesRegistro}>
+                                    <lightning-icon icon-name="utility:close" size="small"></lightning-icon>
+                                </button>
+                            </header>
+
+                            <!-- CUERPO -->
+                            <div class="slds-modal__content slds-p-around_medium">
+                                <p><b>Registro seleccionado:</b> {filaSeleccionada.codEscaneado}</p>
+                                <p><b>Empaque:</b> {filaSeleccionada.empaque}</p>
+                                <p><b>Categoría:</b> {filaSeleccionada.categoria}</p>
+                                <p><b>SubMarca:</b> {filaSeleccionada.subMarca}</p>
+                                <p><b>Cantidad:</b> {filaSeleccionada.cantidad}</p>
+                                <p><b>Cantidad:</b> {filaSeleccionada.precio}</p>
+                            </div>
+
+                            <!-- PIE DE PÁGINA -->
+                            <footer class="slds-modal__footer">
+                                <lightning-button variant="destructive" label="Eliminar"
+                                    onclick={eliminarRegistro}></lightning-button>
+                                <lightning-button variant="brand" label="Modificar" onclick={modificarRegistro}
+                                    style="padding-left: 10px;"></lightning-button>
+                            </footer>
+                        </div>
+                    </section>
+
+                    <div class="slds-backdrop slds-backdrop_open"></div>
+                </template>
+
+            </div>
+            <div class="footer-levantamiento-tickets">
+                <div class="boton" onclick={regresarFormulario}>
+                    REGRESAR
+                </div>
+                <div class="boton" onclick={subirDatos}>
+                    FINALIZAR
+                </div>
+            </div>
+
+        </template>
+    </div>
+</template>

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Categorias_de_Confiteria_Manejantes__c</fullName>
+    <label>Categorías de Confitería Manejantes</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>MultiselectPicklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Pastelitos</fullName>
+                <default>false</default>
+                <label>Pastelitos</label>
+            </value>
+            <value>
+                <fullName>Cigarros</fullName>
+                <default>false</default>
+                <label>Cigarros</label>
+            </value>
+            <value>
+                <fullName>Galletas</fullName>
+                <default>false</default>
+                <label>Galletas</label>
+            </value>
+            <value>
+                <fullName>Chocolate golosina</fullName>
+                <default>false</default>
+                <label>Chocolate golosina</label>
+            </value>
+            <value>
+                <fullName>Botanas</fullName>
+                <default>false</default>
+                <label>Botanas</label>
+            </value>
+            <value>
+                <fullName>Refrescos</fullName>
+                <default>false</default>
+                <label>Refrescos</label>
+            </value>
+            <value>
+                <fullName>Ninguna</fullName>
+                <default>false</default>
+                <label>Ninguna</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+    <visibleLines>4</visibleLines>
+</CustomField>

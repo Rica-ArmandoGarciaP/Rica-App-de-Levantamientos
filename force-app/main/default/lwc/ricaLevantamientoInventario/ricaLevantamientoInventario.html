@@ -1,0 +1,198 @@
+<template>
+    <div class="contenedor-modal">
+        <template lwc:if={mostrarFormulario}>
+            <button class="boton-cerrar" onclick={cerrarModalGeneralSinAcciones}>❌</button>
+            <div class="cabecera slds-text-align_center">
+                <span class="slds-text-heading_large">Levantamiento de Inventario</span>
+            </div>
+
+            <div class="formulario-levantamiento-inventario">
+                <p style="font-size: 16px; text-align: left;"><b>Nombre:</b> {cliente.nombre}</p>
+                <p style="font-size: 16px; text-align: left;"><b>NoCliente:</b> {cliente.numeroCliente}</p>
+
+                <p style="font-size: 16px; padding-top: 10px;">Código de barras</p>
+                <div class="contendeor-lector-de-barras">
+                    <input name="codigoBarras" type="text" value={codEscaneado} onchange={handleChangeInputCodigoBarras}
+                        class="input-codigo-barras"></input>
+                    <lightning-button variant="brand" label="Escaner" class="slds-var-m-left_large"
+                        icon-name="utility:scan" onclick={beginScanning}></lightning-button>
+                </div>
+                <div class="input-container">
+                    <lightning-input label="Fabricante" data-field="fabricante" value={fabricante}
+                        onchange={handleChange} onclick={handleCLickFabricante}
+                        placeholder="Escribe o selecciona un fabricante" type="text" class="input" >
+                    </lightning-input>
+
+                    <template if:true={mostrarSelectorFabricante}>
+                        <ul class="dropdown-options">
+                            <template for:each={opcionesFabricanteFiltradas} for:item="opcion">
+                                <li key={opcion.value} data-field="fabricante" onclick={handleOptionSelect}>
+                                    {opcion.label}</li>
+                            </template>
+                        </ul>
+                    </template>
+                </div>
+
+                <div class="input-container">
+                    <lightning-input label="Empaque" data-field="empaque" value={empaque} onchange={handleChange}
+                        onclick={handleCLickEmpaque} placeholder="Escribe o selecciona un empaque" type="text" class="input">
+                    </lightning-input>
+
+                    <template if:true={mostrarSelectorEmpaque}>
+                        <ul class="dropdown-options">
+                            <template for:each={opcionesEmpaqueFiltradas} for:item="opcion">
+                                <li key={opcion.value} data-field="empaque" onclick={handleOptionSelect}>{opcion.label}
+                                </li>
+                            </template>
+                        </ul>
+                    </template>
+                </div>
+
+                <div class="input-container">
+                    <lightning-input label="Categoria" data-field="categoria" value={categoria} onchange={handleChange}
+                        onclick={handleCLickCategoria} placeholder="Escribe o selecciona una categoría" type="text" class="input">
+                    </lightning-input>
+
+                    <template if:true={mostrarSelectorCategoria}>
+                        <ul class="dropdown-options">
+                            <template for:each={opcionesCategoriaFiltradas} for:item="opcion">
+                                <li key={opcion.value} data-field="categoria" onclick={handleOptionSelect}>
+                                    {opcion.label}</li>
+                            </template>
+                        </ul>
+                    </template>
+                </div>
+
+                <div class="input-container">
+                    <lightning-input label="Submarca" data-field="subMarca" value={subMarca} onchange={handleChange}
+                        onclick={handleCLickSubmarca} placeholder="Escribe o selecciona una sub marca" type="text" class="input">
+                    </lightning-input>
+
+                    <template if:true={mostrarSelectorSubMarca}>
+                        <ul class="dropdown-options">
+                            <template for:each={opcionesSubMarcaFiltradas} for:item="opcion">
+                                <li key={opcion.value} data-field="subMarca" onclick={handleOptionSelect}>{opcion.label}
+                                </li>
+                            </template>
+                        </ul>
+                    </template>
+                </div>
+
+                <lightning-input type="number" name="Cantidad" label="Cantidad" value={cantidad} placeholder="Escribe una cantidad" class="input" style="padding-top: 8px;"
+                    onchange={handleChangeCantidad}></lightning-input>
+            </div>
+
+            <div class="footer-levantamiento-inventario">
+                <div class="boton" onclick={guardarRegistro}>
+                    <img src={urlIconoGuardar} width="20px" height="20px" />
+                </div>
+                <div class="boton" onclick={redirigirResumen}>
+                    <img src={urlIconoResumen} width="20px" height="20px" />
+                </div>
+            </div>
+        </template>
+        <template lwc:if={mostrarResumen}>
+            <div class="cabecera slds-text-align_center">
+                <span class="slds-text-heading_large">Resumen Inventario</span>
+            </div>
+            <div class="formulario-levantamiento-inventario">
+
+                <p style="font-size: 16px; text-align: left; padding-bottom:5px;"><b>Nombre:</b> {cliente.nombre}</p>
+                <p style="font-size: 16px; text-align: left; padding-bottom:5px;"><b>NoCliente:</b> {cliente.numeroCliente}</p>
+
+                <template lwc:if={mostrarTablaResumen}>
+                    <div class="tabla-contenedor">
+                        <table class="slds-table slds-table_bordered slds-table_cell-buffer tabla">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Fabricante</th>
+                                    <th scope="col">Cantidad de Registros</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <template for:each={conteoRegistros} for:item="item">
+                                    <tr key={item.fabricante} data-fabricante={item.fabricante}
+                                        onclick={seleccionarFabricante} class="fila-click">
+                                        <td>{item.fabricante}</td>
+                                        <td>{item.cantidad}</td>
+                                    </tr>
+                                </template>
+                            </tbody>
+                        </table>
+                    </div>
+                </template>
+
+                <template if:true={fabricanteSeleccionado}>
+                    <p style="font-size: 16px;"><strong>Fabricante seleccionado:</strong> {fabricanteSeleccionado}</p>
+                    <div class="tabla-contenedor">
+                        <table class="slds-table slds-table_bordered slds-table_cell-buffer tabla">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Código Escaneado</th>
+                                    <th scope="col">Empaque</th>
+                                    <th scope="col">Categoría</th>
+                                    <th scope="col">SubMarca</th>
+                                    <th scope="col">Cantidad</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <template for:each={registrosSeleccionados} for:item="registro">
+                                    <tr key={registro.codEscaneado} data-codescaneado={registro.codEscaneado}
+                                        onclick={seleccionarRegistro}>
+                                        <td>{registro.codEscaneado}</td>
+                                        <td>{registro.empaque}</td>
+                                        <td>{registro.categoria}</td>
+                                        <td>{registro.subMarca}</td>
+                                        <td>{registro.cantidad}</td>
+                                    </tr>
+                                </template>
+                            </tbody>
+                        </table>
+                    </div>
+                </template>
+
+                <template if:true={mostrarModal}>
+                    <section role="dialog" class="slds-modal slds-fade-in-open">
+                        <div class="slds-modal__container">
+                            <!-- CABECERA -->
+                            <header class="slds-modal__header">
+                                <h2 class="slds-text-heading_medium">Opciones</h2>
+                                <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" onclick={cerrarModalOpcionesRegistro}>
+                                    <lightning-icon icon-name="utility:close" size="small"></lightning-icon>
+                                </button>
+                            </header>
+                
+                            <!-- CUERPO -->
+                            <div class="slds-modal__content slds-p-around_medium">
+                                <p><b>Registro seleccionado:</b> {filaSeleccionada.codEscaneado}</p>
+                                <p><b>Empaque:</b> {filaSeleccionada.empaque}</p>
+                                <p><b>Categoría:</b> {filaSeleccionada.categoria}</p>
+                                <p><b>SubMarca:</b> {filaSeleccionada.subMarca}</p>
+                                <p><b>Cantidad:</b> {filaSeleccionada.cantidad}</p>
+                            </div>
+                
+                            <!-- PIE DE PÁGINA -->
+                            <footer class="slds-modal__footer">
+                                <lightning-button variant="destructive" label="Eliminar" onclick={eliminarRegistro}></lightning-button>
+                                <lightning-button variant="brand" label="Modificar" onclick={modificarRegistro} style="padding-left: 10px;"></lightning-button>
+                            </footer>
+                        </div>
+                    </section>
+                    
+                    <div class="slds-backdrop slds-backdrop_open"></div>
+                </template>
+
+            </div>
+            <div class="footer-levantamiento-inventario">
+                <div class="boton" onclick={regresarFormulario}>
+                    REGRESAR
+                </div>
+                <div class="boton" onclick={subirDatos}>
+                    FINALIZAR
+                </div>
+            </div>
+
+        </template>
+
+    </div>
+</template>

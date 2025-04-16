@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Categorias_de_Abarrotes_Manejantes__c</fullName>
+    <label>Categorías de Abarrotes Manejantes</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>MultiselectPicklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Consomé</fullName>
+                <default>false</default>
+                <label>Consomé</label>
+            </value>
+            <value>
+                <fullName>Café soluble</fullName>
+                <default>false</default>
+                <label>Café soluble</label>
+            </value>
+            <value>
+                <fullName>Jabón de tocador</fullName>
+                <default>false</default>
+                <label>Jabón de tocador</label>
+            </value>
+            <value>
+                <fullName>Detergentes</fullName>
+                <default>false</default>
+                <label>Detergentes</label>
+            </value>
+            <value>
+                <fullName>Modificadores de leche</fullName>
+                <default>false</default>
+                <label>Modificadores de leche</label>
+            </value>
+            <value>
+                <fullName>Puré de tomate</fullName>
+                <default>false</default>
+                <label>Puré de tomate</label>
+            </value>
+            <value>
+                <fullName>Jamón</fullName>
+                <default>false</default>
+                <label>Jamón</label>
+            </value>
+            <value>
+                <fullName>Margarina/Mantequilla</fullName>
+                <default>false</default>
+                <label>Margarina/Mantequilla</label>
+            </value>
+            <value>
+                <fullName>Queso</fullName>
+                <default>false</default>
+                <label>Queso</label>
+            </value>
+            <value>
+                <fullName>Yogurt</fullName>
+                <default>false</default>
+                <label>Yogurt</label>
+            </value>
+            <value>
+                <fullName>Leche en polvo</fullName>
+                <default>false</default>
+                <label>Leche en polvo</label>
+            </value>
+            <value>
+                <fullName>Pasta dental</fullName>
+                <default>false</default>
+                <label>Pasta dental</label>
+            </value>
+            <value>
+                <fullName>Shampoo</fullName>
+                <default>false</default>
+                <label>Shampoo</label>
+            </value>
+            <value>
+                <fullName>Hojas de afeitar</fullName>
+                <default>false</default>
+                <label>Hojas de afeitar</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+    <visibleLines>4</visibleLines>
+</CustomField>

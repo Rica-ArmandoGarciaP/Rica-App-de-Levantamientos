@@ -1,0 +1,295 @@
+:host {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.5); /* Fondo semi-transparente */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 99999; /* Para asegurarse de que esté encima de todo */
+}
+
+.contenedor-modal {
+    position: relative; /* Asegura que los elementos absolutos se posicionen dentro de este contenedor */
+    background: white;
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.titulo-principal{
+    margin-top: 10px;
+}
+
+
+.footer-levantamiento-tickets{
+    background-color: #F40000;
+    width:100%;
+    height: 10%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 20px; /* Espaciado entre acciones */
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 60px;
+    padding-right: 60px;
+    border: solid 1px;
+}
+
+.boton{
+    width:100px;
+    height: 40px;
+    border-radius: 5px;
+    background-color: #b20000;
+    box-shadow: 2px 5px #830000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    
+}
+
+.boton-motivo{
+    width:150px;
+    height: 40px;
+    border-radius: 5px;
+    background-color: #b20000;
+    box-shadow: 2px 5px #830000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.boton-cerrar {
+    position: absolute;
+    top: 5px;
+    right: 5px; /* Cambiado de left a right */
+    background: none;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.contendeor-lector-de-barras{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    vertical-align: bottom;
+    font-size: 16px;
+}
+
+.input-codigo-barras{
+    border: solid 1px;
+    width: 80%;
+    font-size: 16px;
+    border-radius: 5px;
+}
+
+.cabecera{
+    width: 100%;
+    height: 15%;
+    padding: 20px;
+    font-size: 16px;
+}
+
+.accion {
+    flex: 1; /* Hace que todas las acciones ocupen el mismo espacio */
+    height: 100%;
+    background-color: rgb(241, 241, 241);
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    padding: 5px;
+    justify-content: center;
+    align-items: center;
+    vertical-align: middle;
+    box-shadow: 2px 5px rgb(224, 224, 224);
+    text-align: center;
+    border: solid 1px #8383837c;
+    margin-bottom: 15px;
+}
+
+.formulario-levantamiento-tickets{
+    width: 100%;
+    height: 75%;
+    overflow: scroll;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Establece el contenedor del input con posición relativa */
+.input-container {
+    position: relative;
+    width: 100%;
+    font-size: 16px;
+    padding-top: 8px;
+}
+
+/* Estilos para las opciones filtradas */
+.dropdown-options {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    background-color: white;
+    border: 1px solid #ccc;
+    max-height: 200px;
+    overflow-y: auto;
+    position: absolute;
+    top: 100%; /* Muestra la lista justo debajo del input */
+    left: 0;
+    width: 100%;
+    z-index: 100;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.dropdown-options li {
+    padding: 8px;
+    cursor: pointer;
+}
+
+.dropdown-options li:hover {
+    background-color: #f0f0f0;
+}
+
+.contenedor-advertencia{
+    width: 60%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    vertical-align: middle;
+    margin-left: 10px;
+}
+
+.contendor-input-imagenes{
+    width: 100%;
+    height: auto;
+    display: flex; /* <-- esto es clave */
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border: solid 1px #7a7a7a;
+    vertical-align: middle;
+    border-radius: 8px;
+}
+
+.contenidor-previews{
+    width: 100%;
+    height: 100px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    text-align: center;
+    vertical-align: middle;
+    border: solid 1px;
+}
+
+/*ESTILOS DEL INPUT PERSONALIZADO*/
+.contenedor-subir-imagen {
+    width: 100%;
+    height: 180px;
+    display: flex; /* <-- esto es clave */
+    justify-content: center;
+    align-items: center;
+    border: solid 1px #7a7a7a;
+    vertical-align: middle;
+    border-radius: 8px;
+}
+
+
+
+.file-input-wrapper {
+    width: 60%;
+    height: 80px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    background-color: #F40000;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-family: sans-serif;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.file-input-wrapper img {
+    width: 30px;
+    height: 30px;
+}
+
+.file-input {
+    position: absolute;
+    left: 0;
+    top: 0;
+    opacity: 0;
+    cursor: pointer;
+    height: 100%;
+    width: 100%;
+}
+
+/*ESTILOS DEL RESUMEN DEL LEVANTAMINETO*/
+.tabla-contenedor {
+    max-width: 100%; 
+    overflow-x: auto;
+}
+
+.tabla {
+    width: 100%;
+    font-size: 16px;
+}
+
+.tabla th{
+    background-color: #F40000;
+    font-weight: bold;
+    color: white;
+    text-align: center;
+}
+
+.tabla td{
+    text-align: center;
+}
+
+.preview-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.preview-item {
+    text-align: center;
+}
+
+.preview-imagen {
+    max-width: 120px;
+    max-height: 120px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.nombre-archivo {
+    font-size: 12px;
+    margin-top: 5px;
+    word-break: break-word;
+}

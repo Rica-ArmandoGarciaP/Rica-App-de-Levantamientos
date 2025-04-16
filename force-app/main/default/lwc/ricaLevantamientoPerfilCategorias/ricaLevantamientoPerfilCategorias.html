@@ -1,0 +1,57 @@
+<template>
+    <div class="contenedor-modal">
+        <button class="boton-cerrar" onclick={cerrarModalGeneralSinAcciones}>❌</button>
+        <div class="cabecera slds-text-align_center">
+            <span class="titulo-principal slds-text-heading_large">Encuesta</span>
+        </div>
+        <div class="formulario-levantamiento-tickets">
+            <p style="font-size: 16px; text-align: left;"><b>Nombre:</b> {cliente.nombre}</p>
+            <p style="font-size: 16px; text-align: left; padding-bottom: 10px;"><b>NoCliente:</b> {cliente.numeroCliente}</p>
+            <p style="font-size: 16px; font-weight: bold;">¿Qué categorías de abarrotes maneja?</p>
+            <form id="preguntaCategorias">
+                <div class="opciones">
+                    <template for:each={opcionesCategorias} for:item="opcion">
+                        <label key={opcion.label}><input type="checkbox" name="categorias" value={opcion.value}>
+                            &nbsp;{opcion.label}</label>
+                    </template>
+                </div>
+                <br>
+            </form>
+
+            <p style="font-size: 16px; font-weight: bold; margin-top:15px;">¿Qué categorías de confitería maneja?</p>
+            <form id="preguntaConfiteria">
+                <div class="opciones">
+                    <template for:each={opcionesCategoriasConfiteria} for:item="opcion">
+                        <label key={opcion.label}><input type="checkbox" name="confiterias" value={opcion.value}>
+                            &nbsp;{opcion.label}</label>
+                    </template>
+                </div>
+                <br>
+            </form>
+
+            <p style="font-size: 16px; font-weight: bold; margin-top:15px;">¿El cliente maneja bebidas alcohólicas?</p>
+            <form id="preguntaBebidasAlcoholicas">
+                <div class="opciones">
+                    <label><input type="radio" name="bebidasAlcoholicas" value="true"> Sí</label>
+                    <label><input type="radio" name="bebidasAlcoholicas" value="false"> No</label>
+                </div>
+                <br>
+            </form>
+
+            <p style="font-size: 16px; font-weight: bold; margin-top:15px;">¿Más del 50% de las ventas del
+                establecimiento provienen de bebidas alcohólicas?</p>
+            <form id="preguntaPorcentajeVentas">
+                <div class="opciones">
+                    <label><input type="radio" name="porcentajeVentas" value="true"> Sí</label>
+                    <label><input type="radio" name="porcentajeVentas" value="false"> No</label>
+                </div>
+                <br>
+            </form>
+        </div>
+        <div class="footer-levantamiento-tickets">
+            <div class="boton-motivo" onclick={guardarEncuesta}>
+                <p style="color:white; font-size:20px; font-weight:bold;">Enviar</p>
+            </div>
+        </div>
+    </div>
+</template>
